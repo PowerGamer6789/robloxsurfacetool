@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Roblox Surface Tools</title>
+<link rel="icon" href="./favicon.png" type="image/x-icon">
+<style>
+    html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        width: 100%;
+        font-family: Arial, sans-serif;
+        background: #f0f0f0;
+    }
+    .container {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 20px;
+        min-height: 100%;
+        box-sizing: border-box;
+    }
+    h2 { margin-bottom: 20px; }
+    label { display: block; margin-top: 10px; width: 100%; max-width: 600px; }
+    select, input[type="text"], textarea, button {
+        width: 100%;
+        max-width: 600px;
+        padding: 8px;
+        margin-top: 5px;
+        box-sizing: border-box;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        font-size: 1rem;
+    }
+    button {
+        background: #4CAF50;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+    button:hover { background: #45a049; }
+    textarea { height: 150px; resize: vertical; }
+    .row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; }
+    .row > div { flex: 1 1 48%; }
+</style>
+</head>
+<body>
+<div class="container">
+    <h2>Roblox Surface Tools</h2>
+
+    <label for="partPath">Part Path (e.g., workspace.Folder.Part):</label>
+    <input type="text" id="partPath" placeholder="workspace.Part">
+
+    <div class="row">
+        <div>
+            <label for="topSurface">Top Surface:</label>
+            <select id="topSurface">
+                <option value="Smooth">Smooth</option>
+                <option value="Studs">Studs</option>
+                <option value="Inlet">Inlet</option>
+                <option value="Universal">Universal</option>
+                <option value="Motor">Motor</option>
+            </select>
+        </div>
+        <div>
+            <label for="bottomSurface">Bottom Surface:</label>
+            <select id="bottomSurface">
+                <option value="Smooth">Smooth</option>
+                <option value="Studs">Studs</option>
+                <option value="Inlet">Inlet</option>
+                <option value="Universal">Universal</option>
+                <option value="Motor">Motor</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="row">
+        <div>
+            <label for="leftSurface">Left Surface:</label>
+            <select id="leftSurface">
+                <option value="Smooth">Smooth</option>
+                <option value="Studs">Studs</option>
+                <option value="Inlet">Inlet</option>
+                <option value="Universal">Universal</option>
+                <option value="Motor">Motor</option>
+            </select>
+        </div>
+        <div>
+            <label for="rightSurface">Right Surface:</label>
+            <select id="rightSurface">
+                <option value="Smooth">Smooth</option>
+                <option value="Studs">Studs</option>
+                <option value="Inlet">Inlet</option>
+                <option value="Universal">Universal</option>
+                <option value="Motor">Motor</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="row">
+        <div>
+            <label for="frontSurface">Front Surface:</label>
+            <select id="frontSurface">
+                <option value="Smooth">Smooth</option>
+                <option value="Studs">Studs</option>
+                <option value="Inlet">Inlet</option>
+                <option value="Universal">Universal</option>
+                <option value="Motor">Motor</option>
+            </select>
+        </div>
+        <div>
+            <label for="backSurface">Back Surface:</label>
+            <select id="backSurface">
+                <option value="Smooth">Smooth</option>
+                <option value="Studs">Studs</option>
+                <option value="Inlet">Inlet</option>
+                <option value="Universal">Universal</option>
+                <option value="Motor">Motor</option>
+            </select>
+        </div>
+    </div>
+
+    <button onclick="generateCmd()">Generate Lua Command</button>
+    <button onclick="copyCmd()">Copy to Clipboard</button>
+
+    <label for="luaCmd">Lua Command:</label>
+    <textarea id="luaCmd" readonly></textarea>
+</div>
+
+<script>
+function generateCmd() {
+    const path = document.getElementById("partPath").value.trim();
+    if (!path) {
+        alert("Please enter a part path!");
+        return;
+    }
+
+    const top = document.getElementById("topSurface").value;
+    const bottom = document.getElementById("bottomSurface").value;
+    const left = document.getElementById("leftSurface").value;
+    const right = document.getElementById("rightSurface").value;
+    const front = document.getElementById("frontSurface").value;
+    const back = document.getElementById("backSurface").value;
+
+    const cmd = `${path}.TopSurface = Enum.SurfaceType.${top}
+${path}.BottomSurface = Enum.SurfaceType.${bottom}
+${path}.LeftSurface = Enum.SurfaceType.${left}
+${path}.RightSurface = Enum.SurfaceType.${right}
+${path}.FrontSurface = Enum.SurfaceType.${front}
+${path}.BackSurface = Enum.SurfaceType.${back}`;
+
+    document.getElementById("luaCmd").value = cmd;
+}
+
+function copyCmd() {
+    const textarea = document.getElementById("luaCmd");
+    textarea.select();
+    textarea.setSelectionRange(0, 99999);
+    document.execCommand("copy");
+    alert("Lua command copied to clipboard!");
+}
+</script>
+</body>
+</html>
